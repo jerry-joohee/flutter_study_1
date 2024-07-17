@@ -28,69 +28,86 @@ class _todoApp extends State<todoApp> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.lightBlue,
+        backgroundColor: Colors.black,
         title: Text(
           "todo list",
+          style: TextStyle(color: Colors.white),
         ),
         actions: [
           IconButton(
-              //+아이콘
-              onPressed: () {
-                showDialog(
-                  //팝업
-                  context: context,
-                  builder: (_) {
-                    //builder : 다이얼로그의 UI를 정의하는 함수
-                    return AlertDialog(
-                      //AlertDialog: 다이얼로그의 UI를 정의하는 위젯
-                      title: const Text('나의 할일'),
-                      actions: [
-                        TextField(
-                          onChanged: (value) {
+            //+아이콘
+            onPressed: () {
+              showDialog(
+                //팝업
+                barrierColor: Colors.black.withAlpha(100),
+                //딤
+                context: context,
+                builder: (_) {
+                  //builder : 다이얼로그의 UI를 정의하는 함수
+                  return AlertDialog(
+                    //AlertDialog: 다이얼로그의 UI를 정의하는 위젯
+                    title: const Text('나의 할일'),
+                    actions: [
+                      TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            title = value;
+                            //onChanged: 입력된 텍스트가 변경될 때 호출되는 콜백 함수. 입력된 값을 title 변수에 저장합
+                          });
+                        },
+                        decoration: InputDecoration(hintText: "글 제목"),
+                      ),
+                      TextField(
+                        onChanged: (value) {
+                          setState(() {
+                            description = value;
+                            //할 일의 내용을 입력받는 필드. 입력된 값을 description 변수에 저장
+                          });
+                        },
+                        decoration: InputDecoration(hintText: "글 내용"),
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Center(
+                        child: ElevatedButton(
+                          //ElevatedButton: 누를 수 있는 버튼 위젯
+                          onPressed: () {
+                            Navigator.of(context).pop();
                             setState(() {
-                              title = value;
-                              //onChanged: 입력된 텍스트가 변경될 때 호출되는 콜백 함수. 입력된 값을 title 변수에 저장합
+                              todos.add(
+                                  Todo(title: title, description: description));
                             });
                           },
-                          decoration: InputDecoration(hintText: "글 제목"),
+                          child: Text(" 추가 하기"),
                         ),
-                        TextField(
-                          onChanged: (value) {
-                            setState(() {
-                              description = value;
-                              //할 일의 내용을 입력받는 필드. 입력된 값을 description 변수에 저장
-                            });
-                          },
-                          decoration: InputDecoration(hintText: "글 내용"),
-                        ),
-                        Center(
-                            child: ElevatedButton(
-                                //ElevatedButton: 누를 수 있는 버튼 위젯
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                  setState(() {
-                                    todos.add(Todo(
-                                        title: title,
-                                        description: description));
-                                  });
-                                },
-                                child: Text(" 추가 하기")))
-                      ],
-                    );
-                  },
-                );
-              },
-              icon: Icon(Icons.add))
+                      )
+                    ],
+                  );
+                },
+              );
+            },
+            icon: Icon(
+              Icons.add,
+              color: Colors.white,
+            ),
+          )
         ],
       ),
       body: ListView.builder(
         itemBuilder: (_, index) {
           //itemBuilder: 각 항목을 어떻게 렌더링할지 정의하는 함수. 여기서는 ListTile을 반환
-          return InkWell(
-            //InkWell: 터치 이벤트를 감지하는 위젯
-            child: ListTile(
-              title: Text(todos[index].title),
-              subtitle: Text(todos[index].description),
+          return ListTile(
+            title: Text(todos[index].title),
+            subtitle: Text(todos[index].description),
+            trailing: IconButton(
+              //trailing: 항목의 끝부분에 표시될 위젯
+              onPressed: () {
+                setState(() {
+                  todos.removeAt(index);
+                });
+              },
+              icon: Icon(Icons.delete, color: Colors.red),
             ),
           );
         },
