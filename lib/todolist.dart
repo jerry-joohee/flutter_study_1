@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class Todo {
-  final String title; //타이틀
-  final String description; //설명
+  String title; //타이틀
+  String description; //설명
 
   Todo({required this.title, required this.description});
 }
@@ -13,7 +13,7 @@ class todoApp extends StatefulWidget {
 
   @override
   State<todoApp> createState() => _todoApp();
-  //createState 메서드: _todoApp 상태 객체를 반환
+//createState 메서드: _todoApp 상태 객체를 반환
 }
 
 class _todoApp extends State<todoApp> {
@@ -30,7 +30,7 @@ class _todoApp extends State<todoApp> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          "todo list",
+          "Todo List",
           style: TextStyle(color: Colors.white),
         ),
         actions: [
@@ -79,7 +79,7 @@ class _todoApp extends State<todoApp> {
                                   Todo(title: title, description: description));
                             });
                           },
-                          child: Text(" 추가 하기"),
+                          child: Text('추가하기'),
                         ),
                       )
                     ],
@@ -100,6 +100,50 @@ class _todoApp extends State<todoApp> {
           return ListTile(
             title: Text(todos[index].title),
             subtitle: Text(todos[index].description),
+            onTap: () {
+              //수정팝업
+              title = todos[index].title;
+              description = todos[index].description;
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: Text('수정하기'),
+                      actions: [
+                        TextField(
+                          onChanged: (value) {
+                            title = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: todos[index].title,
+                          ),
+                        ),
+                        TextField(
+                          onChanged: (value) {
+                            description = value;
+                          },
+                          decoration: InputDecoration(
+                            hintText: todos[index].description,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        Center(
+                          child: ElevatedButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                setState(() {
+                                  todos[index].title = title;
+                                  todos[index].description = description;
+                                });
+                              },
+                              child: Text('수정하기')),
+                        )
+                      ],
+                    );
+                  });
+            },
             trailing: IconButton(
               //trailing: 항목의 끝부분에 표시될 위젯
               onPressed: () {
