@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 class Todo {
   String title; //타이틀
   String description; //설명
+  bool isChecked; // 체크 상태
 
-  Todo({required this.title, required this.description});
+  Todo(
+      {required this.title, required this.description, this.isChecked = false});
 }
 
 class todoApp extends StatefulWidget {
@@ -35,7 +37,7 @@ class _todoApp extends State<todoApp> {
         ),
         actions: [
           IconButton(
-            //+아이콘
+            //+ 아이콘
             onPressed: () {
               showDialog(
                 //팝업
@@ -50,19 +52,23 @@ class _todoApp extends State<todoApp> {
                     actions: [
                       TextField(
                         onChanged: (value) {
-                          setState(() {
-                            title = value;
-                            //onChanged: 입력된 텍스트가 변경될 때 호출되는 콜백 함수. 입력된 값을 title 변수에 저장합
-                          });
+                          setState(
+                            () {
+                              title = value;
+                              //onChanged: 입력된 텍스트가 변경될 때 호출되는 콜백 함수. 입력된 값을 title 변수에 저장합
+                            },
+                          );
                         },
                         decoration: InputDecoration(hintText: "글 제목"),
                       ),
                       TextField(
                         onChanged: (value) {
-                          setState(() {
-                            description = value;
-                            //할 일의 내용을 입력받는 필드. 입력된 값을 description 변수에 저장
-                          });
+                          setState(
+                            () {
+                              description = value;
+                              //할 일의 내용을 입력받는 필드. 입력된 값을 description 변수에 저장
+                            },
+                          );
                         },
                         decoration: InputDecoration(hintText: "글 내용"),
                       ),
@@ -74,10 +80,12 @@ class _todoApp extends State<todoApp> {
                           //ElevatedButton: 누를 수 있는 버튼 위젯
                           onPressed: () {
                             Navigator.of(context).pop();
-                            setState(() {
-                              todos.add(
-                                  Todo(title: title, description: description));
-                            });
+                            setState(
+                              () {
+                                todos.add(Todo(
+                                    title: title, description: description));
+                              },
+                            );
                           },
                           child: Text('추가하기'),
                         ),
@@ -100,58 +108,93 @@ class _todoApp extends State<todoApp> {
           return ListTile(
             title: Text(todos[index].title),
             subtitle: Text(todos[index].description),
-            onTap: () {
-              //수정팝업
-              title = todos[index].title;
-              description = todos[index].description;
-              showDialog(
-                  context: context,
-                  builder: (_) {
-                    return AlertDialog(
-                      title: Text('수정하기'),
-                      actions: [
-                        TextField(
-                          onChanged: (value) {
-                            title = value;
-                          },
-                          decoration: InputDecoration(
-                            hintText: todos[index].title,
-                          ),
-                        ),
-                        TextField(
-                          onChanged: (value) {
-                            description = value;
-                          },
-                          decoration: InputDecoration(
-                            hintText: todos[index].description,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 30,
-                        ),
-                        Center(
-                          child: ElevatedButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  todos[index].title = title;
-                                  todos[index].description = description;
-                                });
-                              },
-                              child: Text('수정하기')),
-                        )
-                      ],
-                    );
-                  });
-            },
-            trailing: IconButton(
+            trailing: Row(
               //trailing: 항목의 끝부분에 표시될 위젯
-              onPressed: () {
-                setState(() {
-                  todos.removeAt(index);
-                });
-              },
-              icon: Icon(Icons.delete, color: Colors.red),
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                IconButton(
+                  //trailing: 항목의 끝부분에 표시될 위젯
+                  onPressed: () {
+                    setState(
+                      () {
+                        title = todos[index].title;
+                        description = todos[index].description;
+                        showDialog(
+                          context: context,
+                          builder: (_) {
+                            return AlertDialog(
+                              title: Text('수정하기'),
+                              actions: [
+                                TextField(
+                                  onChanged: (value) {
+                                    title = value;
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: todos[index].title,
+                                  ),
+                                ),
+                                TextField(
+                                  onChanged: (value) {
+                                    description = value;
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: todos[index].description,
+                                  ),
+                                ),
+                                SizedBox(
+                                  height: 30,
+                                ),
+                                Center(
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                      //Navigator.of(context).pop() 다이얼로그 닫음
+                                      setState(
+                                        () {
+                                          todos[index].title = title;
+                                          todos[index].description =
+                                              description;
+                                        },
+                                      );
+                                    },
+                                    child: Text('수정하기'),
+                                  ),
+                                )
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
+                  },
+                  icon: Icon(
+                    Icons.edit,
+                  ),
+                ),
+                IconButton(
+                  onPressed: () {
+                    setState(
+                      () {
+                        todos.removeAt(index);
+                      },
+                    );
+                  },
+                  icon: Icon(Icons.delete, color: Colors.red),
+                ),
+                IconButton(
+                  // 체크박스 버튼
+                  onPressed: () {
+                    setState(
+                      () {
+                        todos[index].isChecked = !todos[index].isChecked;
+                      },
+                    );
+                  },
+                  icon: Icon(todos[index].isChecked
+                      ? Icons.check_box
+                      : Icons.check_box_outline_blank),
+                ),
+              ],
             ),
           );
         },
