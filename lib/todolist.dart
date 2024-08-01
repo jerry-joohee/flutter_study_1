@@ -31,15 +31,28 @@ class _TodoAppState extends State<TodoApp> {
   Widget build(BuildContext context) {
     //필터링 상태에 따른 할 일 항목 필터링
     List<Todo> filteredTodos;
-    //filteredTodos List : 현재 필터링 상태에 따라 todos List 에서 필터링된 항목을 저장
+// filteredTodos List : 현재 필터링 상태에 따라 todos List 에서 필터링된 항목을 저장
     if (filter == "All") {
       filteredTodos = todos;
     } else if (filter == "Checked") {
-      filteredTodos = todos.where((todo) => todo.isChecked).toList();
+      filteredTodos = todos.where(
+        (todo) {
+          return todo.isChecked;
+        },
+      ).toList();
+      // where : list타입 필터링 메소드
     } else {
-      filteredTodos = todos.where((todo) => !todo.isChecked).toList();
+      filteredTodos = todos.where(
+        (todo) {
+          return !todo.isChecked;
+        },
+      ).toList();
     }
+
     /* todos는 Todo 객체들의 리스트입니다.
+    todo라는 이름은 그냥 변수 이름입니다. 이 변수는 todos 리스트 안의 각 할 일 항목을 가리킵니다.
+    예를 들어, todos 리스트가 3개의 할 일 항목을 가지고 있다면, todo는 이 항목들을 하나씩 가리키며 isChecked 값을 검사합니다.
+    todo는 그냥 우리가 정한 이름입니다. 이 이름은 아무거나 정할 수 있지만, 소문자로 시작하는 것이 일반적입니다.
     where 메서드는 리스트에서 특정 조건을 만족하는 항목들만 필터링하는 기능을 합니다.
     이 경우, where 메서드 안에 주어진 조건은 (todo) => todo.isChecked 입니다.
     (todo) => todo.isChecked는 람다 함수(익명 함수)로, 각 todo 객체의 isChecked 속성이 true인지를 확인합니다.
@@ -47,6 +60,7 @@ class _TodoAppState extends State<TodoApp> {
     .toList() 메서드를 사용하여 이 Iterable을 List<Todo> 타입으로 변환합니다. */
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
@@ -55,7 +69,6 @@ class _TodoAppState extends State<TodoApp> {
         ),
         actions: [
           IconButton(
-            // + 아이콘
             onPressed: () {
               showDialog(
                 // 팝업
@@ -117,7 +130,7 @@ class _TodoAppState extends State<TodoApp> {
               Icons.add,
               color: Colors.white,
             ),
-          )
+          ),
         ],
       ),
       body: Column(
@@ -163,8 +176,8 @@ class _TodoAppState extends State<TodoApp> {
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: filteredTodos
-                  .length, //itemCount: filteredTodos.length로 필터링된 할 일 항목의 개수를 설정
+              itemCount: filteredTodos.length,
+              //itemCount: filteredTodos.length로 필터링된 할 일 항목의 개수를 설정
               itemBuilder: (_, index) {
                 //itemBuilder : filteredTodos 리스트의 각 항목을 ListTile로 반환
                 return ListTile(
