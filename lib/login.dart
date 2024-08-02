@@ -9,6 +9,14 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  //입력받는 id,password
+  String inputId = "";
+  String inputPassword = "";
+
+  String id = "test";
+  String password = "1234";
+  //변수 두 개씩 사용하는 이유는 사용자의 입력과 미리 정의된 값(정답)을 비교하여 인증을 수행하기 위해서
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,20 +32,34 @@ class _LoginState extends State<Login> {
                 style: TextStyle(fontSize: 40),
               ),
               TextField(
+                onChanged: (value) {
+                  inputId = value;
+                },
                 decoration: InputDecoration(hintText: 'id'),
               ),
               TextField(
-                decoration: InputDecoration(hintText: 'password'),
+                onChanged: (value) {
+                  inputPassword = value;
+                },
+                decoration:
+                    InputDecoration(hintText: 'password',
+                        errorText: if (inputId != id) {
+              },),
               ),
               SizedBox(
                 height: 50,
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TodoApp()), //페이지 이동
-                  );
+                  if (inputId == id && inputPassword == password) {
+                    //'&&=AND'두 조건 모두 참일때 실행 역할
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => TodoApp(), //페이지 이동
+                      ),
+                    );
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: Size.fromHeight(50),
