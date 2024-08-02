@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study/todolist.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -31,17 +32,25 @@ class _LoginState extends State<Login> {
               SizedBox(
                 height: 50,
               ),
-              Container(
-                decoration: BoxDecoration(color: Colors.black),
-                width: double.maxFinite,
-                height: 52,
-                child: Center(
-                  child: Text(
-                    'login',
-                    style: TextStyle(color: Colors.white, fontSize: 20),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TodoApp()), //페이지 이동
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size.fromHeight(50),
+                  backgroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-              )
+                child: Text(
+                  'login',
+                  style: TextStyle(color: Colors.white, fontSize: 18),
+                ),
+              ),
             ],
           ),
         ),
