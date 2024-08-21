@@ -19,7 +19,6 @@ class _LoginState extends State<Login> {
 
   bool errorId = false;
   bool errorPassword = false;
-  bool login = false;
 
   @override
   Widget build(BuildContext context) {
@@ -71,7 +70,6 @@ class _LoginState extends State<Login> {
                     errorPassword = inputPassword != password;
 
                     if (inputId == id && inputPassword == password) {
-                      login = true;
                       //'&&=AND'두 조건 모두 참일때 실행 역할 : inputID와 id값이 같고 inputPassword와 password가 같을때~
                       Navigator.push(
                         context,
