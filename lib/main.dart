@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_study/login.dart';
+import 'package:flutter_study/login_2.dart';
 import 'package:flutter_study/todolist.dart';
 import 'package:flutter_study/home.dart';
 import 'package:flutter_study/riverpod.dart';
@@ -17,7 +18,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           useMaterial3: true,
         ),
-        home: Home());
+        home: Login2());
   }
 }
 
