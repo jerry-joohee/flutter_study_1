@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_study/todolist.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_study/riverpod.dart';
 
 // 로그인 상태를 관리하는 클래스
 class LoginState {
