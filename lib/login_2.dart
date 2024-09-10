@@ -7,10 +7,17 @@ part 'login_2.g.dart';
 @riverpod
 class helloWorld extends _$helloWorld {
   @override
-  String build() => 'hello world';
-  void increment() {
-    bool errorId = false;
-    bool errorPassword = false;
+  build() =>
+      bool errorId = false; bool errorPassword = false;
+  void method() {
+    inputId = value;
+    if (errorId) {
+      errorId = false; //errorId값이 true일 경우에 false로 바꿔줌
+    };
+    inputPassword = value;
+    if (errorPassword) {
+      errorPassword = false;
+    }
   }
 }
 
@@ -43,10 +50,12 @@ class Study2 extends ConsumerWidget {
               TextField(
                 onChanged: (value) {
                   setState(() {
-                    inputId = value;
-                    if (errorId) {
-                      errorId = false; //errorId값이 true일 경우에 false로 바꿔줌
-                    }
+                    ref.read(helloWorldProvider.notifier).method();
+                  }
+                    // inputId = value;
+                    // if (errorId) {
+                    //   errorId = false; //errorId값이 true일 경우에 false로 바꿔줌
+                    // }
                   });
                 },
                 decoration: InputDecoration(
@@ -55,10 +64,11 @@ class Study2 extends ConsumerWidget {
               TextField(
                 onChanged: (value) {
                   setState(() {
-                    inputPassword = value;
-                    if (errorPassword) {
-                      errorPassword = false;
-                    }
+  ref.read(helloWorldProvider.notifier).method();
+                    // inputPassword = value;
+                    // if (errorPassword) {
+                    //   errorPassword = false;
+                    // }
                   });
                 },
                 decoration: InputDecoration(
