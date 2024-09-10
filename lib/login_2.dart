@@ -7,17 +7,9 @@ part 'login_2.g.dart';
 @riverpod
 class helloWorld extends _$helloWorld {
   @override
-  build() =>
-      bool errorId = false; bool errorPassword = false;
+  build() => false;
   void method() {
-    inputId = value;
-    if (errorId) {
-      errorId = false; //errorId값이 true일 경우에 false로 바꿔줌
-    };
-    inputPassword = value;
-    if (errorPassword) {
-      errorPassword = false;
-    }
+    state = true;
   }
 }
 
