@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:flutter_study/login.dart';
-import 'package:flutter_study/login_2.dart';
+import 'package:flutter_study/logins.dart';
 import 'package:flutter_study/study.dart';
 import 'package:flutter_study/todolist.dart';
 
