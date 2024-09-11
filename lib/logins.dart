@@ -84,22 +84,20 @@ class _Study2State extends ConsumerState<Study2> {
               const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () {
-                  setState(() {
-                    errorId = inputId != id;
-                    errorPassword = inputPassword != password;
+                  errorId = inputId != id;
+                  errorPassword = inputPassword != password;
 
-                    if (!errorId && !errorPassword) {
-                      // 로그인 성공 시 페이지 이동
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const TodoApp(),
-                        ),
-                      );
-                      // 상태 업데이트 메서드 호출
-                      helloWorldNotifier.method();
-                    }
-                  });
+                  if (!errorId && !errorPassword) {
+                    // 로그인 성공 시 페이지 이동
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TodoApp(),
+                      ),
+                    );
+                    // 상태 업데이트 메서드 호출
+                    helloWorldNotifier.method();
+                  }
                 },
                 style: ElevatedButton.styleFrom(
                   minimumSize: const Size.fromHeight(50),
