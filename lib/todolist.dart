@@ -309,7 +309,7 @@ class _TodoAppState extends ConsumerState<TodoApp> {
               ),
             ),
             SizedBox(
-              height: 20,
+              height: 30,
             )
           ],
         ),
