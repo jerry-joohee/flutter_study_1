@@ -2,28 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_study/todolist.dart';
+import 'package:flutter_study/provider/loginProvider.dart';
 
-part 'logins.g.dart';
-
-@riverpod
-class HelloWorld extends _$HelloWorld {
-  @override
-  build() => false;
-
-  void method() {
-    state = true;
-    print(state);
-  }
-}
-
-class Study2 extends ConsumerStatefulWidget {
-  const Study2({super.key});
+class Logins extends ConsumerStatefulWidget {
+  const Logins({super.key});
 
   @override
-  ConsumerState<Study2> createState() => _Study2State();
+  ConsumerState<Logins> createState() => _LoginsState();
 }
 
-class _Study2State extends ConsumerState<Study2> {
+class _LoginsState extends ConsumerState<Logins> {
   // 입력받는 id, password
   String inputId = "";
   String inputPassword = "";

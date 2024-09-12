@@ -1,4 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:flutter_study/provider/loginProvider.dart';
+import 'package:flutter_study/logins.dart';
+
+class TodoApp extends ConsumerStatefulWidget {
+  // TodoApp 클래스: StatefulWidget을 상속받아 상태를 가질 수 있는 위젯
+  const TodoApp({Key? key}) : super(key: key);
+
+  @override
+  ConsumerState<TodoApp> createState() => _TodoAppState();
+// createState 메서드: _TodoAppState 상태 객체를 반환
+}
 
 class Todo {
   String title; // 타이틀
@@ -9,16 +22,7 @@ class Todo {
       {required this.title, required this.description, this.isChecked = false});
 }
 
-class TodoApp extends StatefulWidget {
-  // TodoApp 클래스: StatefulWidget을 상속받아 상태를 가질 수 있는 위젯
-  const TodoApp({Key? key}) : super(key: key);
-
-  @override
-  State<TodoApp> createState() => _TodoAppState();
-// createState 메서드: _TodoAppState 상태 객체를 반환
-}
-
-class _TodoAppState extends State<TodoApp> {
+class _TodoAppState extends ConsumerState<TodoApp> {
   // _TodoAppState 클래스: TodoApp의 상태를 정의하는 클래스
   String title = "";
   String description = "";
@@ -29,6 +33,8 @@ class _TodoAppState extends State<TodoApp> {
 
   @override
   Widget build(BuildContext context) {
+    // final todolist = ref.watch(todolistProvider);
+    // final todolistNotifier = ref.read(todolistProvider.notifier);
     //필터링 상태에 따른 할 일 항목 필터링
     List<Todo> filteredTodos;
 // filteredTodos List : 현재 필터링 상태에 따라 todos List 에서 필터링된 항목을 저장
@@ -133,153 +139,182 @@ class _TodoAppState extends State<TodoApp> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          //필터 버튼
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  setState(
-                    () {
-                      filter = "All";
-                    },
-                  );
-                },
-                child: Text("All"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(
-                    () {
-                      filter = "Checked";
-                    },
-                  );
-                },
-                child: Text("Checked"),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  setState(
-                    () {
-                      filter = "Unchecked";
-                    },
-                  );
-                },
-                child: Text("Unchecked"),
-              ),
-            ],
-          ),
-          Expanded(
-            child: ListView.builder(
-              itemCount: filteredTodos.length,
-              //itemCount: filteredTodos.length로 필터링된 할 일 항목의 개수를 설정
-              itemBuilder: (_, index) {
-                //itemBuilder : filteredTodos 리스트의 각 항목을 ListTile로 반환
-                return ListTile(
-                  title: Text(filteredTodos[index].title),
-                  //index: 현재 항목의 인덱스입니다. filteredTodos[index]: 필터링된 할 일 목록에서 현재 항목을 가져옵니다.filteredTodos[index].title: 현재 항목의 제목입니다.
-                  subtitle: Text(filteredTodos[index].description),
-                  trailing: Row(
-                    // trailing: 항목의 끝부분에 표시될 위젯
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        onPressed: () {
-                          setState(
-                            () {
-                              title = filteredTodos[index].title;
-                              description = filteredTodos[index].description;
-                              showDialog(
-                                context: context,
-                                builder: (_) {
-                                  return AlertDialog(
-                                    title: Text('수정하기'),
-                                    actions: [
-                                      TextField(
-                                        onChanged: (value) {
-                                          title = value;
-                                        },
-                                        decoration: InputDecoration(
-                                          hintText: filteredTodos[index].title,
-                                        ),
-                                      ),
-                                      TextField(
-                                        onChanged: (value) {
-                                          description = value;
-                                        },
-                                        decoration: InputDecoration(
-                                          hintText:
-                                              filteredTodos[index].description,
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 30,
-                                      ),
-                                      Center(
-                                        child: ElevatedButton(
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            // Navigator.of(context).pop() 다이얼로그 닫음
-                                            setState(
-                                              () {
-                                                filteredTodos[index].title =
-                                                    title;
-                                                filteredTodos[index]
-                                                    .description = description;
-                                              },
-                                            );
+      body: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        child: Column(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            //필터 버튼
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    setState(
+                      () {
+                        filter = "All";
+                      },
+                    );
+                  },
+                  child: Text("All"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(
+                      () {
+                        filter = "Checked";
+                      },
+                    );
+                  },
+                  child: Text("Checked"),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    setState(
+                      () {
+                        filter = "Unchecked";
+                      },
+                    );
+                  },
+                  child: Text("Unchecked"),
+                ),
+              ],
+            ),
+            Expanded(
+              child: ListView.builder(
+                itemCount: filteredTodos.length,
+                //itemCount: filteredTodos.length로 필터링된 할 일 항목의 개수를 설정
+                itemBuilder: (_, index) {
+                  //itemBuilder : filteredTodos 리스트의 각 항목을 ListTile로 반환
+                  return ListTile(
+                    title: Text(filteredTodos[index].title),
+                    //index: 현재 항목의 인덱스입니다. filteredTodos[index]: 필터링된 할 일 목록에서 현재 항목을 가져옵니다.filteredTodos[index].title: 현재 항목의 제목입니다.
+                    subtitle: Text(filteredTodos[index].description),
+                    trailing: Row(
+                      // trailing: 항목의 끝부분에 표시될 위젯
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            setState(
+                              () {
+                                title = filteredTodos[index].title;
+                                description = filteredTodos[index].description;
+                                showDialog(
+                                  context: context,
+                                  builder: (_) {
+                                    return AlertDialog(
+                                      title: Text('수정하기'),
+                                      actions: [
+                                        TextField(
+                                          onChanged: (value) {
+                                            title = value;
                                           },
-                                          child: Text('수정하기'),
+                                          decoration: InputDecoration(
+                                            hintText:
+                                                filteredTodos[index].title,
+                                          ),
                                         ),
-                                      )
-                                    ],
-                                  );
-                                },
-                              );
-                            },
-                          );
-                        },
-                        icon: Icon(
-                          Icons.edit,
+                                        TextField(
+                                          onChanged: (value) {
+                                            description = value;
+                                          },
+                                          decoration: InputDecoration(
+                                            hintText: filteredTodos[index]
+                                                .description,
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          height: 30,
+                                        ),
+                                        Center(
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              // Navigator.of(context).pop() 다이얼로그 닫음
+                                              setState(
+                                                () {
+                                                  filteredTodos[index].title =
+                                                      title;
+                                                  filteredTodos[index]
+                                                          .description =
+                                                      description;
+                                                },
+                                              );
+                                            },
+                                            child: Text('수정하기'),
+                                          ),
+                                        )
+                                      ],
+                                    );
+                                  },
+                                );
+                              },
+                            );
+                          },
+                          icon: Icon(
+                            Icons.edit,
+                          ),
                         ),
-                      ),
-                      IconButton(
-                        onPressed: () {
-                          setState(
-                            () {
-                              todos.removeAt(
-                                  todos.indexOf(filteredTodos[index]));
-                            },
-                          );
-                        },
-                        icon: Icon(Icons.delete, color: Colors.red),
-                      ),
-                      IconButton(
-                        // 체크박스 버튼
-                        onPressed: () {
-                          setState(
-                            () {
-                              filteredTodos[index].isChecked =
-                                  !filteredTodos[index].isChecked;
-                            },
-                          );
-                        },
-                        icon: Icon(filteredTodos[index].isChecked
-                            ? Icons.check_box
-                            : Icons.check_box_outline_blank),
-                      ),
-                    ],
+                        IconButton(
+                          onPressed: () {
+                            setState(
+                              () {
+                                todos.removeAt(
+                                    todos.indexOf(filteredTodos[index]));
+                              },
+                            );
+                          },
+                          icon: Icon(Icons.delete, color: Colors.red),
+                        ),
+                        IconButton(
+                          // 체크박스 버튼
+                          onPressed: () {
+                            setState(
+                              () {
+                                filteredTodos[index].isChecked =
+                                    !filteredTodos[index].isChecked;
+                              },
+                            );
+                          },
+                          icon: Icon(filteredTodos[index].isChecked
+                              ? Icons.check_box
+                              : Icons.check_box_outline_blank),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size.fromHeight(50),
+                backgroundColor: Colors.grey,
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const Logins(),
                   ),
                 );
+                setState(
+                  () {},
+                );
               },
+              child: Text(
+                "Logout",
+                style: TextStyle(color: Colors.black),
+              ),
             ),
-          ),
-        ],
+            SizedBox(
+              height: 20,
+            )
+          ],
+        ),
       ),
     );
   }
