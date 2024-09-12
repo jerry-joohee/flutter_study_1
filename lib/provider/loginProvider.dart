@@ -7,7 +7,13 @@ class HelloWorld extends _$HelloWorld {
   @override
   build() => false;
 
-  void method() {
+  //로그인 페이지
+  void login() {
     state = true;
+  }
+
+  //투두리스트 페이지
+  void logout() {
+    state = false;
   }
 }

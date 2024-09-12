@@ -84,7 +84,7 @@ class _LoginsState extends ConsumerState<Logins> {
                       ),
                     );
                     // 상태 업데이트 메서드 호출
-                    helloWorldNotifier.method();
+                    helloWorldNotifier.login();
                   }
                 },
                 style: ElevatedButton.styleFrom(

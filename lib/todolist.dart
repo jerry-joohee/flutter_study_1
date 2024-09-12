@@ -301,12 +301,7 @@ class _TodoAppState extends ConsumerState<TodoApp> {
                     builder: (context) => const Logins(),
                   ),
                 );
-                helloWorldNotifier.method();
-                setState(
-                  () {
-                    state = false;
-                  },
-                );
+                todolistNotifier.logout();
               },
               child: Text(
                 "Logout",
