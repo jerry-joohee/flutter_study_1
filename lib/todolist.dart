@@ -33,8 +33,8 @@ class _TodoAppState extends ConsumerState<TodoApp> {
 
   @override
   Widget build(BuildContext context) {
-    // final todolist = ref.watch(todolistProvider);
-    // final todolistNotifier = ref.read(todolistProvider.notifier);
+    final todolist = ref.watch(helloWorldProvider);
+    final todolistNotifier = ref.read(helloWorldProvider.notifier);
     //필터링 상태에 따른 할 일 항목 필터링
     List<Todo> filteredTodos;
 // filteredTodos List : 현재 필터링 상태에 따라 todos List 에서 필터링된 항목을 저장
@@ -301,8 +301,11 @@ class _TodoAppState extends ConsumerState<TodoApp> {
                     builder: (context) => const Logins(),
                   ),
                 );
+                helloWorldNotifier.method();
                 setState(
-                  () {},
+                  () {
+                    state = false;
+                  },
                 );
               },
               child: Text(

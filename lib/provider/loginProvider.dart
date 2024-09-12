@@ -9,6 +9,5 @@ class HelloWorld extends _$HelloWorld {
 
   void method() {
     state = true;
-    print(state);
   }
 }
