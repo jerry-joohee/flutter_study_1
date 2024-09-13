@@ -28,9 +28,9 @@ class Study extends ConsumerWidget {
         ),
         body: Center(
           child: ElevatedButton(
-              onPressed: () =>
-                  ref.read(helloWorldProvider.notifier).increment(),
-              child: Text('${ref.watch(helloWorldProvider)}')),
+            onPressed: () => ref.read(helloWorldProvider.notifier).increment(),
+            child: Text('${ref.watch(helloWorldProvider)}'),
+          ),
         ),
       ),
     );

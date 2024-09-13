@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_study/login.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:flutter_study/provider/loginProvider.dart';
 import 'package:flutter_study/logins.dart';
@@ -23,6 +24,28 @@ class Todo {
 }
 
 class _TodoAppState extends ConsumerState<TodoApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        //위젯 다 렌더링 된다음에(만들어진 다음에) 실행하도록 하는것
+        var checkLogin = ref.read(helloWorldProvider);
+        //read:상태의 값이 변경되어도 해당 변경 사항에 반응할 필요가 없을 때
+        //watch:상태가 변할 때마다 UI를 자동으로 업데이트해야 할 경우
+        print(checkLogin);
+        if (checkLogin == false) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Logins(),
+            ),
+          );
+        }
+      },
+    );
+  }
+
   // _TodoAppState 클래스: TodoApp의 상태를 정의하는 클래스
   String title = "";
   String description = "";

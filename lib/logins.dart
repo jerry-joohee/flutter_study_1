@@ -74,7 +74,6 @@ class _LoginsState extends ConsumerState<Logins> {
                 onPressed: () {
                   errorId = inputId != id;
                   errorPassword = inputPassword != password;
-
                   if (!errorId && !errorPassword) {
                     // 로그인 성공 시 페이지 이동
                     Navigator.push(
